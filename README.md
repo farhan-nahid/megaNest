@@ -29,7 +29,7 @@ Ensure you have the following installed on your machine:
 Clone the **MegaNest** repository to your local machine:
 
 ```bash
-git clone git@github.com:farhan-nahid/megaNest.git
+git clone https://github.com/farhan-nahid/megaNest
 cd megaNest
 ```
 
@@ -86,11 +86,11 @@ The project will now start in development mode. Review the console output to con
 
 We welcome contributions to MegaNest! To contribute:
 
-- 1.  Fork the repository.
-- 2.  Create a new branch for your feature or bugfix (`git checkout -b feature/your-feature-name`).
-- 3.  Commit your changes (`git commit -am 'Add your feature'`).
-- 4.  Push to the branch (`git push origin feature/your-feature-name`).
-- 5.  Open a pull request.
+1.  Fork the repository.
+2.  Create a new branch for your feature or bugfix (`git checkout -b feature/your-feature-name`).
+3.  Commit your changes (`git commit -am 'Add your feature'`).
+4.  Push to the branch (`git push origin feature/your-feature-name`).
+5.  Open a pull request.
 
 Please ensure your code follows our project standards and is thoroughly tested.
 
