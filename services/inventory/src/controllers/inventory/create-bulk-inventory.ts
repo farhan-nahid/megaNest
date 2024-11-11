@@ -1,18 +1,26 @@
+import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
 import prisma from "@/lib/prisma";
 import { Request, Response } from "express";
 
 const createBulkInventory = catchAsync(async (req: Request, res: Response) => {
-  const { items } = req.body; // Expecting an array of inventory items
+  // existing inventory items
+  const existingItems = await prisma.inventory.findMany({
+    where: { sku: { in: req.body.items.map((item) => item.sku) } },
+    select: { sku: true },
+  });
 
-  if (!Array.isArray(items) || items.length === 0) {
-    return res
-      .status(400)
-      .json({ message: "Items array is required and cannot be empty." });
+  // create only new items
+  const newItems = req.body.items.filter(
+    (item) => !existingItems.some((existingItem) => existingItem.sku === item.sku)
+  );
+
+  if (newItems.length === 0) {
+    throw new ApiError(400, "All items already exist in inventory");
   }
 
-  const createdItems = await prisma.$transaction(
-    items.map((item) =>
+  const items = await prisma.$transaction(
+    newItems.map((item) =>
       prisma.inventory.create({
         data: {
           ...item,
@@ -20,8 +28,8 @@ const createBulkInventory = catchAsync(async (req: Request, res: Response) => {
             create: {
               actionType: "IN",
               lastQuantity: 0,
-              quantityChanged: item.quantity,
-              newQuantity: item.quantity,
+              quantityChanged: item.quantity ?? 0,
+              newQuantity: item.quantity ?? 0,
             },
           },
         },
@@ -32,7 +40,7 @@ const createBulkInventory = catchAsync(async (req: Request, res: Response) => {
 
   res
     .status(201)
-    .json({ message: "Bulk inventory creation successful", data: createdItems });
+    .json({ message: "Inventory creation successful", data: items, existingItems });
 });
 
 export default createBulkInventory;

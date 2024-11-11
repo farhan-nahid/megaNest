@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
-import createError from "http-errors";
+
 import { AnyZodObject, ZodError } from "zod";
+import { ApiError } from "./api-error";
 
 const validateResource =
   (schema: AnyZodObject) => async (req: Request, _res: Response, next: NextFunction) => {
@@ -17,9 +18,10 @@ const validateResource =
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        next(createError(400, { errors: error.errors, stack: error?.stack }));
+        const { message, errors, issues } = error ?? {};
+        next(new ApiError(400, message, { errors, issues }, "zod"));
       } else {
-        next();
+        next(error);
       }
     }
   };

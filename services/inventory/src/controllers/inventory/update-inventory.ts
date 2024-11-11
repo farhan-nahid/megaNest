@@ -1,7 +1,7 @@
+import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
 import prisma from "@/lib/prisma";
 import { Request, Response } from "express";
-import createError from "http-errors";
 
 const updateInventory = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -12,7 +12,7 @@ const updateInventory = catchAsync(async (req: Request, res: Response) => {
   });
 
   if (!inventoryExists) {
-    throw createError(404, "Inventory not found");
+    throw new ApiError(400, "Inventory not found");
   }
 
   // find last history

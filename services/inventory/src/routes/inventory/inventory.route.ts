@@ -2,6 +2,7 @@ import {
   createBulkInventory,
   createInventory,
   getAllInventory,
+  getAllInventoryDetails,
   getInventoryById,
   getInventoryDetails,
   updateBulkInventory,
@@ -20,11 +21,17 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", getAllInventory);
+router.get("/details", getAllInventoryDetails);
 router.get("/:id", validateResource(GetInventoryByIdSchema), getInventoryById);
 router.get("/:id/details", validateResource(GetInventoryByIdSchema), getInventoryDetails);
 router.post("/", validateResource(InventoryCreateDTOSchema), createInventory);
 router.post("/bulk", validateResource(InventoryBulkCreateDTOSchema), createBulkInventory);
-router.put("/:id", validateResource(InventoryUpdateDTOSchema), updateInventory);
-router.put("/bulk", validateResource(InventoryBulkUpdateDTOSchema), updateBulkInventory);
+router.patch(
+  "/bulk",
+  validateResource(InventoryBulkUpdateDTOSchema),
+  updateBulkInventory
+);
+
+router.patch("/:id", validateResource(InventoryUpdateDTOSchema), updateInventory);
 
 export default router;

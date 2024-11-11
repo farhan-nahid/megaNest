@@ -1,10 +1,9 @@
 import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
-import express from "express";
-import createError from "http-errors";
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-
+import { ApiError } from "./lib/api-error";
 import { rootRouter } from "./routes";
 
 dotenv.config();
@@ -26,12 +25,20 @@ app.get("/health", (_req, res) => {
 // Routes
 app.use("/", rootRouter);
 
-// 404 handler
-app.use((_req, _res, next) => next(createError(404, "Not Found")));
-
-// Error handler
-app.use((err, _req, _res, next) => {
-  next(createError(err?.statusCode || 500, err.message));
+// DEFAULT CATCH
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({ message: "Not Found" });
 });
 
-app.listen(PORT, () => console.log(`${serviceName} is running on port ${PORT}`));
+// ERROR HANDLER
+app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof ApiError) {
+    next(res.status(err.statusCode).json(err.toJSON()));
+  } else {
+    next(res.status(500).json({ message: "Internal Server Error", err }));
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`${serviceName} is running on http://localhost:${PORT}`);
+});

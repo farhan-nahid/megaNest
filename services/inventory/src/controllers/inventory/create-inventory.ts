@@ -1,9 +1,16 @@
+import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
 import prisma from "@/lib/prisma";
 import { Request, Response } from "express";
 
 const createInventory = catchAsync(async (req: Request, res: Response) => {
-  const { quantity } = req.body;
+  const { quantity, sku } = req.body;
+
+  const existingInventory = await prisma.inventory.findUnique({ where: { sku } });
+
+  if (existingInventory?.id) {
+    throw new ApiError(400, "Inventory with the same SKU already exists");
+  }
 
   const inventory = await prisma.inventory.create({
     data: {
