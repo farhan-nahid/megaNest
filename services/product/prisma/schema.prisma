@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 enum Status {
@@ -19,15 +19,14 @@ enum Status {
   UNListed
 }
 
-
 model Product {
-  id          String   @id @default(cuid())
-  name        String  
-  sku         String   @unique
+  id String @id @default(cuid())
+  name String  
+  sku String @unique
   description String?  
-  price       Float    @default(0)
+  price Float @default(0)
   inventoryId String  
-  status      Status   @default(DRAFT)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status Status @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
