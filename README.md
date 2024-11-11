@@ -49,6 +49,7 @@ To manage the PostgreSQL database, access PgAdmin in your web browser:
 
 - Go to http://localhost:5050
 - Use the credentials provided in the `docker-compose.yaml` file or `.env` file to log in.
+- Use server as `host.docker.internal` or `postgres`
 
 ### 4. Set Up Environment Variables
 
