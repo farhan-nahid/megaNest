@@ -4,7 +4,16 @@ import prisma from "@/lib/prisma";
 import { Request, Response } from "express";
 
 const getAllProduct = catchAsync(async (_req: Request, res: Response) => {
-  const product = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
+  const product = await prisma.product.findMany({
+    select: {
+      id: true,
+      sku: true,
+      name: true,
+      price: true,
+      inventoryId: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
   if (!product) {
     throw new ApiError(400, "product not found");

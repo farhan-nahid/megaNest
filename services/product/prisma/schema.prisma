@@ -25,7 +25,7 @@ model Product {
   sku String @unique
   description String?  
   price Float @default(0)
-  inventoryId String  
+  inventoryId String  @default("") 
   status Status @default(DRAFT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,3 +1,4 @@
+import { inventoryRequest } from "@/configs/axios";
 import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
 import prisma from "@/lib/prisma";
@@ -8,14 +9,51 @@ const getProductById = catchAsync(async (req: Request, res: Response) => {
 
   const product = await prisma.product.findUnique({
     where: { id },
-    select: { id: true },
+    select: {
+      id: true,
+      sku: true,
+      name: true,
+      price: true,
+      inventoryId: true,
+    },
   });
 
   if (!product) {
     throw new ApiError(400, "product not found");
   }
 
-  res.status(200).json({ data: product });
+  if (!product.inventoryId) {
+    const response = await inventoryRequest.post("/inventory", {
+      productId: product.id,
+      sku: product.sku,
+    });
+
+    const inventory = response?.data?.data;
+
+    await prisma.product.update({
+      where: { id: product.id },
+      data: { inventoryId: inventory.id },
+    });
+
+    return res.status(200).json({
+      ...product,
+      inventoryId: inventory.id,
+      stock: inventory.quantity || 0,
+      stockStatus: inventory.quantity > 0 ? "In stock" : "Out of stock",
+    });
+  }
+
+  const response = await inventoryRequest.get(`/inventory/${product.inventoryId}`);
+
+  const inventory = response?.data?.data;
+
+  return res.status(200).json({
+    data: {
+      ...product,
+      stock: inventory.quantity || 0,
+      stockStatus: inventory.quantity > 0 ? "In stock" : "Out of stock",
+    },
+  });
 });
 
 export default getProductById;

@@ -1,10 +1,11 @@
+import { inventoryRequest } from "@/configs/axios";
 import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
 import prisma from "@/lib/prisma";
 import { Request, Response } from "express";
 
 const createProduct = catchAsync(async (req: Request, res: Response) => {
-  const { quantity, sku } = req.body;
+  const { sku } = req.body;
 
   const existingProduct = await prisma.product.findUnique({ where: { sku } });
 
@@ -13,13 +14,23 @@ const createProduct = catchAsync(async (req: Request, res: Response) => {
   }
 
   const product = await prisma.product.create({
-    data: {
-      ...req.body,
-    },
-    select: { id: true },
+    data: { ...req.body },
+    select: { id: true, sku: true },
   });
 
-  res.status(201).json({ message: "Success", data: product });
+  const response = await inventoryRequest.post("/inventory", {
+    productId: product.id,
+    sku: product.sku,
+  });
+
+  const inventory = response?.data?.data;
+
+  const updatedProduct = await prisma.product.update({
+    where: { id: product.id },
+    data: { inventoryId: inventory.id },
+  });
+
+  res.status(201).json({ message: "Success", data: { ...updatedProduct, inventory } });
 });
 
 export default createProduct;
