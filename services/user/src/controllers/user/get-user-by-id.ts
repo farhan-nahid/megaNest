@@ -5,8 +5,9 @@ import { User } from "@prisma/client";
 import { Request, Response } from "express";
 
 const getUserById = catchAsync(async (req: Request, res: Response) => {
-  const field = (req.query.field as string) ?? "id";
+  const field = req.query.field;
   const { id } = req.params;
+
   let user: User | null = null;
 
   if (field === "authUserId") {
