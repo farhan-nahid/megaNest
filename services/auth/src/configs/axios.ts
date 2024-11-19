@@ -1,6 +1,6 @@
 import axios from "axios";
-import { INVENTORY_URL } from ".";
+import { USER_SERVICE } from ".";
 
-const inventoryRequest = axios.create({ baseURL: INVENTORY_URL });
+const userRequest = axios.create({ baseURL: USER_SERVICE });
 
-export { inventoryRequest };
+export { userRequest };
