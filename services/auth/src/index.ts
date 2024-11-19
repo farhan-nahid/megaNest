@@ -15,7 +15,7 @@ app.use(compression());
 app.use(cors());
 app.use(morgan("dev"));
 
-const PORT = process.env.PORT || 4004;
+const PORT = process.env.PORT || 4003;
 const serviceName = process.env.SERVICE_NAME;
 
 app.get("/health", (_req, res) => {

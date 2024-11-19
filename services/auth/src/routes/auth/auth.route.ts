@@ -8,6 +8,6 @@ import { Router } from "express";
 const router = Router();
 
 router.post("/register", validateResource(UserRegisterSchema), userRegistration);
-router.get("/login", validateResource(UserLoginSchema), userLogin);
+router.post("/login", validateResource(UserLoginSchema), userLogin);
 
 export default router;
