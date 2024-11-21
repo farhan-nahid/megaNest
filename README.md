@@ -98,3 +98,33 @@ Please ensure your code follows our project standards and is thoroughly tested.
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## Service Endpoints
+
+### Product
+
+```bash
+http://localhost:4001
+
+```
+
+### Inventory
+
+```bash
+http://localhost:4002
+
+```
+
+### Auth
+
+```bash
+http://localhost:4003
+
+```
+
+### User
+
+```bash
+http://localhost:4004
+
+```
