@@ -128,3 +128,10 @@ http://localhost:4003
 http://localhost:4004
 
 ```
+
+### Email
+
+```bash
+http://localhost:4005
+
+```
