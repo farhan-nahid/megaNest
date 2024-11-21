@@ -1,6 +1,7 @@
 import axios from "axios";
-import { USER_SERVICE } from ".";
+import { USER_SERVICE, EMAIL_SERVICE } from ".";
 
 const userRequest = axios.create({ baseURL: USER_SERVICE });
+const emailRequest = axios.create({ baseURL: EMAIL_SERVICE });
 
-export { userRequest };
+export { userRequest, emailRequest };

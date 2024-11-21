@@ -31,7 +31,6 @@ const userLogin = catchAsync(async (req: Request, res: Response) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    await loginSessions({ userId: "Guest", userAgent, ipAddress, attempt: "FAILED" });
     throw new ApiError(401, "Invalid credentials");
   }
 

@@ -1,8 +1,10 @@
-import { userRequest } from "@/configs/axios";
+import { emailRequest, userRequest } from "@/configs/axios";
 import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
+import { generateVerificationCode } from "@/lib/generate-verification-code";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import dayjs from "dayjs";
 import { Request, Response } from "express";
 
 const userRegistration = catchAsync(async (req: Request, res: Response) => {
@@ -32,9 +34,28 @@ const userRegistration = catchAsync(async (req: Request, res: Response) => {
   });
 
   // create user profile
-  userRequest.post("/user", { authUserId: user.id, name: user.name, email: user.email });
+  await userRequest.post("/user", {
+    authUserId: user.id,
+    name: user.name,
+    email: user.email,
+  });
 
-  res.status(201).json({ user });
+  // generate verification code
+  const code = generateVerificationCode();
+  console.log({ code });
+  await prisma.verificationCode.create({
+    data: { code, userId: user.id, expiresAt: dayjs().add(1, "day").toISOString() },
+  });
+
+  // send verification email
+  await emailRequest.post("/email/send", {
+    recipient: user.email,
+    subject: "Verify your email",
+    body: `Your verification code is ${code}`,
+    source: "User verification",
+  });
+
+  res.status(201).json({ data: user, message: "User registered successfully" });
 });
 
 export default userRegistration;

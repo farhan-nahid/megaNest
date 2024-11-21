@@ -34,4 +34,17 @@ const AccessTokensSchema = z.object({
   }),
 });
 
-export { AccessTokensSchema, UserLoginSchema, UserRegisterSchema, UserUpdateSchema };
+const EmailVerificationSchema = z.object({
+  body: z.object({
+    code: z.string().length(6),
+    email: z.string().email(),
+  }),
+});
+
+export {
+  AccessTokensSchema,
+  EmailVerificationSchema,
+  UserLoginSchema,
+  UserRegisterSchema,
+  UserUpdateSchema,
+};
