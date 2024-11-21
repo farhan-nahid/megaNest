@@ -38,7 +38,7 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   sessions   Session[]
-  verificationCodes VerficationCode[]
+  verificationCodes VerificationCode[]
 }
 
 enum LoginAttemptStatus {
@@ -54,7 +54,7 @@ model Session {
   userAgent  String?
   attempt    LoginAttemptStatus @default(SUCCESS)
   loginAt    DateTime @default(now())
-  expiresAt  DateTime
+  expiresAt  DateTime?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -73,7 +73,7 @@ enum VerificationCodeType {
   TWO_FACTOR_AUTH
 }
 
-model VerficationCode {
+model VerificationCode {
   id         String   @id @default(cuid())
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
