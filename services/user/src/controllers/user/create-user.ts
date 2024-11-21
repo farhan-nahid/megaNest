@@ -6,6 +6,8 @@ import { Request, Response } from "express";
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const { authUserId } = req.body;
 
+  console.log(authUserId);
+
   const existingUser = await prisma.user.findUnique({ where: { authUserId } });
 
   if (existingUser?.id) {
