@@ -128,3 +128,52 @@ http://localhost:4003
 http://localhost:4004
 
 ```
+
+### Email
+
+```bash
+http://localhost:4005
+
+```
+
+### Cart
+
+```bash
+http://localhost:4006
+
+```
+
+### Order
+
+```bash
+http://localhost:4007
+
+```
+
+### Api Gateway
+
+```bash
+http://localhost:8081
+
+```
+
+### Redis
+
+```bash
+http://localhost:8001
+
+```
+
+### Mailhog
+
+```bash
+http://localhost:8025
+
+```
+
+### PgAdmin
+
+```bash
+http://localhost:5050
+
+```
