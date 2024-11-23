@@ -1,7 +1,7 @@
+import middlewares from "@/middlewares";
 import axios from "axios";
 import type { Express, Request, Response } from "express";
 import config from "./config.json";
-// import middlewares from "./middlewares";
 
 export const createHandler = (hostname: string, path: string, method: string) => {
   return async (req: Request, res: Response) => {
@@ -13,17 +13,16 @@ export const createHandler = (hostname: string, path: string, method: string) =>
         });
       }
 
+      const headers = req.headers;
+
       const { data } = await axios({
         method,
         url,
         data: req.body,
         headers: {
           origin: "http://localhost:8081",
-          "x-user-id": req.headers["x-user-id"] || "",
-          "x-user-email": req.headers["x-user-email"] || "",
-          "x-user-name": req.headers["x-user-name"] || "",
-          "x-user-role": req.headers["x-user-role"] || "",
-          "user-agent": req.headers["user-agent"],
+          "User-Agent": headers["user-agent"],
+          "Content-Type": headers["content-type"],
         },
       });
 
@@ -37,9 +36,9 @@ export const createHandler = (hostname: string, path: string, method: string) =>
   };
 };
 
-// export const getMiddlewares = (names: string[]) => {
-//   return names.map((name) => middlewares[name]);
-// };
+export const getMiddlewares = (names: string[]) => {
+  return names.map((name) => middlewares[name]);
+};
 
 export const configureRoutes = (app: Express) => {
   Object.entries(config.services).forEach(([_name, service]) => {
@@ -47,9 +46,9 @@ export const configureRoutes = (app: Express) => {
     service.routes.forEach((route) => {
       route.methods.forEach((method) => {
         const endpoint = `/api${route.path}`;
-        // const middleware = getMiddlewares(route.middlewares);
+        const middleware = getMiddlewares(route.middlewares);
         const handler = createHandler(hostname, route.path, method);
-        app[method](endpoint, handler);
+        app[method](endpoint, middleware, handler);
       });
     });
   });
