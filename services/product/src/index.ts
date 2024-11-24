@@ -35,10 +35,20 @@ app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ApiError) {
     next(res.status(err.statusCode).json(err.toJSON()));
   } else {
-    next(res.status(500).json({ message: "Internal Server Error", err }));
+    console.log(err);
+    if (err?.response?.data) {
+      next(
+        res.status(500).json({
+          message: "Bad Request",
+          url: err?.response?.config?.baseURL + err?.response?.config?.url,
+          error: err?.response?.data,
+        })
+      );
+    } else {
+      next(res.status(500).json({ message: "Internal Server Error" }));
+    }
   }
 });
-
 app.listen(PORT, () => {
   console.log(`${serviceName} is running on http://localhost:${PORT}`);
 });
