@@ -41,7 +41,18 @@ services:
     volumes:
       - mailhog_data:/var/lib/mailhog
 
+  redis-stack:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis_data:/var/lib/redis-stack
+    environment:
+      - REDIS_ARGS=--save 900 1
+
 volumes:
   postgres_data:
   pgadmin_data:
   mailhog_data:
+  redis_data:

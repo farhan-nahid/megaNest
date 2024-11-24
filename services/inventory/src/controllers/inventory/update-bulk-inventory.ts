@@ -11,28 +11,32 @@ interface Data {
 }
 
 const updateBulkInventory = catchAsync(async (req: Request, res: Response) => {
-  const inventorySKUs = req.body.items.map((e) => e.sku);
+  const { field, items } = req.body;
+  const inventoryIds = items.map((e) => e.id);
   const negativeQuantityError: Data[] = [];
 
   // Fetch existing items based on SKUs in request
   const existingItems = await prisma.inventory.findMany({
-    where: { sku: { in: inventorySKUs } },
-    select: { sku: true, id: true, quantity: true },
+    where:
+      field === "sku"
+        ? { sku: { in: inventoryIds } }
+        : { productId: { in: inventoryIds } },
+    select: { sku: true, id: true, productId: true, quantity: true },
   });
 
   // Identify found and missing SKUs
-  const foundSKUs = existingItems.map((item) => item.sku);
-  const missingSKUs = inventorySKUs.filter((sku) => !foundSKUs.includes(sku));
+  const foundIds = existingItems.map((item) => item[field]);
+  const missingIds = inventoryIds.filter((sku) => !foundIds.includes(sku));
 
   // Throw an error if there are missing SKUs
-  if (missingSKUs.length > 0) {
-    throw new ApiError(404, "Some inventory items not found", { missingSKUs });
+  if (missingIds.length > 0) {
+    throw new ApiError(404, "Some inventory items not found", { missingIds, field });
   }
 
   // Prepare update data for found items
-  const updateData = req.body.items.filter((item) =>
+  const updateData = items.filter((item) =>
     existingItems.some((existingItem) => {
-      if (existingItem.sku === item.sku) {
+      if (existingItem[field] === item.id) {
         item.id = existingItem.id; // Attach ID for reference in updates
         return true;
       }
@@ -98,7 +102,7 @@ const updateBulkInventory = catchAsync(async (req: Request, res: Response) => {
   res.status(200).json({
     message: "Bulk update successful",
     data,
-    missingSKUs,
+    missingIds,
     negativeQuantityError,
   });
 });

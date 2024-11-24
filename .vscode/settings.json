@@ -4,8 +4,11 @@
     "datasource",
     "dpage",
     "healthcheck",
+    "hgetall",
+    "hset",
     "isready",
-    "mailhog",
-    "pgadmin"
+    "Mailhog",
+    "pgadmin",
+    "setex"
   ]
 }

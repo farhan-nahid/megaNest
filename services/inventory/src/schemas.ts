@@ -31,11 +31,12 @@ const InventoryBulkUpdateDTOSchema = z.object({
   body: z.object({
     items: z.array(
       z.object({
-        sku: z.string().min(1),
+        id: z.string().min(1),
         quantity: z.number().int().min(1),
         actionType: z.nativeEnum(ActionType),
       })
     ),
+    field: z.enum(["sku", "productId"]).default("sku"),
   }),
 });
 
