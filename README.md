@@ -83,6 +83,12 @@ pnpm dev
 
 The project will now start in development mode. Review the console output to confirm that all services have started successfully.
 
+## RabbitMQ
+
+```bash
+sudo docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
+```
+
 ## Contributing
 
 We welcome contributions to MegaNest! To contribute:
