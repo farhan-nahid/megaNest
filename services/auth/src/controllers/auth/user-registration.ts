@@ -52,7 +52,7 @@ const userRegistration = catchAsync(async (req: Request, res: Response) => {
     recipient: user.email,
     subject: "Verify your email",
     body: `Your verification code is ${code}`,
-    source: "User verification",
+    source: "USER_VERIFICATION",
   });
 
   res.status(201).json({ data: user, message: "User registered successfully" });

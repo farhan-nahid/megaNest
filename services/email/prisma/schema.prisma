@@ -13,12 +13,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum EmailSource {
+  USER_VERIFICATION
+  PASSWORD_RESET
+  CHANGE_PASSWORD
+  ACCOUNT_ACTIVATION
+  WELCOME_EMAIL
+  ACCOUNT_DEACTIVATION
+  ORDER_CONFIRMATION
+  ORDER_SHIPPED
+  ORDER_DELIVERED
+  ORDER_CANCELLED
+  CART_ABANDONMENT_REMINDER
+  PROMOTIONAL_OFFER
+  NEWSLETTER
+  PRODUCT_RECOMMENDATION
+  REFUND_CONFIRMATION
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+}
+
 model Email {
   id         String   @id @default(cuid())
   sender     String
   recipient  String
   subject    String
   body       String
-  source     String
+  source     EmailSource
   sendAt     DateTime @default(now())
 }

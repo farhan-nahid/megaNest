@@ -69,7 +69,7 @@ const checkout = catchAsync(async (req: Request, res: Response) => {
     recipient: userEmail,
     subject: "Order Confirmation",
     body: `Your order has been placed successfully. Order ID: ${order.id}. Total: ${grandTotal}`,
-    source: "CHECKOUT",
+    source: "ORDER_CONFIRMATION",
   });
 
   res.status(201).json({ message: "Success", data: order });

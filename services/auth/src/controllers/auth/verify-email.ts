@@ -40,7 +40,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     recipient: user.email,
     subject: "Email verified",
     body: "Your email has been verified successfully",
-    source: "Email verification",
+    source: "ACCOUNT_ACTIVATION",
   });
 
   res.status(200).json({ message: "Email verified successfully" });
