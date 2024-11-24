@@ -15,7 +15,7 @@ app.use(compression());
 app.use(cors());
 app.use(morgan("dev"));
 
-const PORT = process.env.PORT || 4004;
+const PORT = process.env.PORT || 4007;
 const serviceName = process.env.SERVICE_NAME;
 
 app.get("/health", (_req, res) => {
@@ -35,7 +35,18 @@ app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ApiError) {
     next(res.status(err.statusCode).json(err.toJSON()));
   } else {
-    next(res.status(500).json({ message: "Internal Server Error", err }));
+    console.log(err);
+    if (err?.response?.data) {
+      next(
+        res.status(500).json({
+          message: "Bad Request",
+          url: err?.response?.config?.baseURL + err?.response?.config?.url,
+          error: err?.response?.data,
+        })
+      );
+    } else {
+      next(res.status(500).json({ message: "Internal Server Error" }));
+    }
   }
 });
 

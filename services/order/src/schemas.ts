@@ -2,11 +2,19 @@ import { z } from "zod";
 
 const OrderCheckoutSchema = z.object({
   body: z.object({
-    userId: z.number().int(),
+    userId: z.string().cuid(),
     userName: z.string(),
-    productId: z.number().int(),
+    userEmail: z.string().email(),
     cartSessionId: z.string(),
   }),
 });
 
-export { OrderCheckoutSchema };
+const CartItemSchema = z.object({
+  body: z.object({
+    inventoryId: z.string().cuid(),
+    productId: z.string().cuid(),
+    quantity: z.number().int(),
+  }),
+});
+
+export { CartItemSchema, OrderCheckoutSchema };

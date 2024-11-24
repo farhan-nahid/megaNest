@@ -29,7 +29,7 @@ model Order {
   subtotal    Float
   tax         Float
   grandTotal  Float
-  status      OrderStatus
+  status      OrderStatus @default(PENDING)
   items       OrderItem[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
