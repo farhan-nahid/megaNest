@@ -9,6 +9,7 @@
     "isready",
     "Mailhog",
     "pgadmin",
+    "rabbitmq",
     "setex"
   ]
 }

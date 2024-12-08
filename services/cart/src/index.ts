@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import "./events/onKeyExpires";
 import { ApiError } from "./lib/api-error";
+import "./lib/receiver";
 import { rootRouter } from "./routes";
 
 dotenv.config();

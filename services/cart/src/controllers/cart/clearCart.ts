@@ -1,6 +1,6 @@
-import redis from "@/configs/redis";
 import { ApiError } from "@/lib/api-error";
 import { catchAsync } from "@/lib/catch-async";
+import { clearFromRedis } from "@/services";
 import { Request, Response } from "express";
 
 const clearCart = catchAsync(async (req: Request, res: Response) => {
@@ -11,15 +11,13 @@ const clearCart = catchAsync(async (req: Request, res: Response) => {
       res.status(200).json({ message: "Cart is empty" });
     }
 
-    const session = await redis.get(`sessions:${cartSessionId}`);
+    const { session } = await clearFromRedis(cartSessionId);
+
     if (!session) {
       delete req.headers["x-cart-session-id"];
       return res.status(200).json({ message: "Cart is empty" });
     }
 
-    // Clear cart
-    await redis.del(`sessions:${cartSessionId}`);
-    await redis.del(`cart:${cartSessionId}`);
     delete req.headers["x-cart-session-id"];
 
     return res.status(200).json({ message: "Cart cleared" });

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import { ApiError } from "./lib/api-error";
+import "./lib/receiver";
 import { rootRouter } from "./routes";
 
 dotenv.config();
@@ -45,7 +46,7 @@ app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
         })
       );
     } else {
-      next(res.status(500).json({ message: "Internal Server Error" }));
+      next(res.status(500).json({ message: "Internal Server Error", err }));
     }
   }
 });

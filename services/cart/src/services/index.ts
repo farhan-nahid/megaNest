@@ -27,4 +27,15 @@ const clearCart = async (id: string) => {
   }
 };
 
-export { clearCart };
+const clearFromRedis = async (cartSessionId: string) => {
+  const session = await redis.get(`sessions:${cartSessionId}`);
+
+  // Clear cart
+  await redis.del(`sessions:${cartSessionId}`);
+  await redis.del(`cart:${cartSessionId}`);
+  // delete req.headers["x-cart-session-id"];
+
+  return { session };
+};
+
+export { clearCart, clearFromRedis };

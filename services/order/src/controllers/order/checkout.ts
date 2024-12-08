@@ -1,6 +1,7 @@
-import { cartRequest, emailRequest, productRequest } from "@/configs/axios";
+import { cartRequest, productRequest } from "@/configs/axios";
 import { catchAsync } from "@/lib/catch-async";
 import prisma from "@/lib/prisma";
+import { sendToQueue } from "@/lib/queue";
 import { Request, Response } from "express";
 
 const checkout = catchAsync(async (req: Request, res: Response) => {
@@ -59,18 +60,24 @@ const checkout = catchAsync(async (req: Request, res: Response) => {
   });
 
   // clear cart
-  await cartRequest.delete("/cart/me", {
-    headers: { "x-cart-session-id": cartSessionId },
-  });
+  // await cartRequest.delete("/cart/me", {
+  //   headers: { "x-cart-session-id": cartSessionId },
+  // });
 
   // send email
+  // await emailRequest.post("/email/send", {
+  //   recipient: userEmail,
+  //   subject: "Order Confirmation",
+  //   body: `Your order has been placed successfully. Order ID: ${order.id}. Total: ${grandTotal}`,
+  //   source: "ORDER_CONFIRMATION",
+  // });
 
-  await emailRequest.post("/email/send", {
-    recipient: userEmail,
-    subject: "Order Confirmation",
-    body: `Your order has been placed successfully. Order ID: ${order.id}. Total: ${grandTotal}`,
-    source: "ORDER_CONFIRMATION",
-  });
+  // send to queue
+  sendToQueue(
+    "send-email",
+    JSON.stringify({ data: order, source: "ORDER_CONFIRMATION" })
+  );
+  sendToQueue("clear-cart", JSON.stringify({ cartSessionId }));
 
   res.status(201).json({ message: "Success", data: order });
 });

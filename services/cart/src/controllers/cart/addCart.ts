@@ -2,6 +2,7 @@ import { CART_TTL } from "@/configs";
 import { inventoryRequest } from "@/configs/axios";
 import redis from "@/configs/redis";
 import { catchAsync } from "@/lib/catch-async";
+import { sendToQueue } from "@/lib/queue";
 import { Request, Response } from "express";
 import { v4 as uuid } from "uuid";
 
@@ -43,10 +44,15 @@ const addCart = catchAsync(async (req: Request, res: Response) => {
     JSON.stringify({ inventoryId, quantity })
   );
 
-  await inventoryRequest.patch(`/inventory/${inventoryId}`, {
-    quantity: quantity,
-    actionType: "OUT",
-  });
+  // await inventoryRequest.patch(`/inventory/${inventoryId}`, {
+  //   quantity: quantity,
+  //   actionType: "OUT",
+  // });
+
+  await sendToQueue(
+    "update-inventory",
+    JSON.stringify({ inventoryId, quantity, actionType: "OUT" })
+  );
 
   return res.status(201).json({ message: "Item added to cart", cartSessionId });
 });
