@@ -89,6 +89,17 @@ The project will now start in development mode. Review the console output to con
 sudo docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
 ```
 
+## Kong
+
+```bash
+sudo docker-compose -f ./kong-docker-compose.yaml up
+```
+
+Service PORT in konga
+
+- 172.17.0.1 (Linux)
+- host.docker.internal (Mac)
+
 ## Contributing
 
 We welcome contributions to MegaNest! To contribute:

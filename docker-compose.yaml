@@ -46,7 +46,7 @@ services:
     container_name: redis-stack
     ports:
       - "6379:6379"
-      - "8001:8001"
+      - "8111:8111"
     volumes:
       - redis_data:/var/lib/redis-stack
     environment:
