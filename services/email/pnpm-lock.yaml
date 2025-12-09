@@ -43,7 +43,7 @@ importers:
         version: 1.10.0
       nodemailer:
         specifier: ^7.0.7
-        version: 7.0.7
+        version: 7.0.11
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -684,8 +684,8 @@ packages:
     resolution: {integrity: sha512-myRT3DiWPHqho5PrJaIRyaMv2kgYf0mUVgBNOYMuCH5Ki1yEiQaf/ZJuQ62nvpc44wL5WDbTX7yGJi1Neevw8w==}
     engines: {node: '>= 0.6'}
 
-  nodemailer@7.0.7:
-    resolution: {integrity: sha512-jGOaRznodf62TVzdyhKt/f1Q/c3kYynk8629sgJHpRzGZj01ezbgMMWJSAjHADcwTKxco3B68/R+KHJY2T5BaA==}
+  nodemailer@7.0.11:
+    resolution: {integrity: sha512-gnXhNRE0FNhD7wPSCGhdNh46Hs6nm+uTyg+Kq0cZukNQiYdnCsoQjodNP9BQVG9XrcK/v6/MgpAPBUFyzh9pvw==}
     engines: {node: '>=6.0.0'}
 
   normalize-path@3.0.0:
@@ -1598,7 +1598,7 @@ snapshots:
 
   negotiator@0.6.4: {}
 
-  nodemailer@7.0.7: {}
+  nodemailer@7.0.11: {}
 
   normalize-path@3.0.0: {}
 
