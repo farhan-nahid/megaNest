@@ -16,7 +16,7 @@ importers:
         version: 0.10.5
       axios:
         specifier: ^1.7.7
-        version: 1.16.0
+        version: 1.16.0(debug@4.4.0)
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -43,7 +43,7 @@ importers:
         version: 1.10.0
       nodemailer:
         specifier: ^9.0.1
-        version: 9.0.1
+        version: 9.1.1
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -677,8 +677,8 @@ packages:
     resolution: {integrity: sha512-myRT3DiWPHqho5PrJaIRyaMv2kgYf0mUVgBNOYMuCH5Ki1yEiQaf/ZJuQ62nvpc44wL5WDbTX7yGJi1Neevw8w==}
     engines: {node: '>= 0.6'}
 
-  nodemailer@9.0.1:
-    resolution: {integrity: sha512-Gwv8SQewT616ZM/URn0H54b8PWo/Wum7md3EW2aWy1lO27+WZCX+Xyak3J+NlmHUjDh5ME+uesJUDRbR3Ye8Bw==}
+  nodemailer@9.1.1:
+    resolution: {integrity: sha512-izw9mVKFix6YSnC9eLgV6g1opl9DUlRio9ZNcq+Wu9Ujn2UwF+8Nl0B8nz22kEC+CTZCvinkxwJ0DeFbb6NwcQ==}
     engines: {node: '>=6.0.0'}
 
   normalize-path@3.0.0:
@@ -1113,9 +1113,9 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.16.0:
+  axios@1.16.0(debug@4.4.0):
     dependencies:
-      follow-redirects: 1.16.0
+      follow-redirects: 1.16.0(debug@4.4.0)
       form-data: 4.0.5
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
@@ -1368,7 +1368,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  follow-redirects@1.16.0: {}
+  follow-redirects@1.16.0(debug@4.4.0):
+    optionalDependencies:
+      debug: 4.4.0
 
   form-data@4.0.5:
     dependencies:
@@ -1587,7 +1589,7 @@ snapshots:
 
   negotiator@0.6.4: {}
 
-  nodemailer@9.0.1: {}
+  nodemailer@9.1.1: {}
 
   normalize-path@3.0.0: {}
 
