@@ -13,7 +13,7 @@ importers:
         version: 5.22.0(prisma@5.22.0)
       axios:
         specifier: ^1.7.7
-        version: 1.16.0
+        version: 1.16.0(debug@2.6.9)
       compression:
         specifier: ^1.7.5
         version: 1.7.5
@@ -28,7 +28,7 @@ importers:
         version: 4.21.1
       morgan:
         specifier: ^1.10.0
-        version: 1.11.0
+        version: 1.12.1
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -563,8 +563,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  morgan@1.11.0:
-    resolution: {integrity: sha512-zSkVu3t18r39pw4ixfBKvfZi3y2UOqr7d4WYwcj3m8nXpEQK4rPO6GLzs/CExoRgmX3y9EjmmcXqv6jq0SK46g==}
+  morgan@1.12.1:
+    resolution: {integrity: sha512-tljKC0ex20AjO58Ob/eZ53JloycbVswbVNCHx6V6VLGzqt/w8dIynVGL0G8qVjNKwiA7sYSogCrN6QtJ82IV+g==}
     engines: {node: '>= 0.8.0'}
 
   ms@2.0.0:
@@ -977,9 +977,9 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.16.0:
+  axios@1.16.0(debug@2.6.9):
     dependencies:
-      follow-redirects: 1.16.0
+      follow-redirects: 1.16.0(debug@2.6.9)
       form-data: 4.0.5
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
@@ -1216,7 +1216,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  follow-redirects@1.16.0: {}
+  follow-redirects@1.16.0(debug@2.6.9):
+    optionalDependencies:
+      debug: 2.6.9
 
   form-data@4.0.5:
     dependencies:
@@ -1379,7 +1381,7 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
-  morgan@1.11.0:
+  morgan@1.12.1:
     dependencies:
       basic-auth: 2.0.1
       debug: 2.6.9
